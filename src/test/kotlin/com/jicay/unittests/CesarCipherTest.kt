@@ -1,17 +1,13 @@
 package com.jicay.unittests
 
-import assertk.assertFailure
-import assertk.assertThat
-import assertk.assertions.hasMessage
-import assertk.assertions.isEqualTo
-import assertk.assertions.isInstanceOf
-import org.junit.jupiter.api.Test
+import io.kotest.assertions.throwables.shouldThrowWithMessage
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 
 
-class CesarCipherTest {
+class CesarCipherTest : FunSpec({
 
-    @Test
-    fun `cipher 'A' with key 2 should return 'C'`() {
+    test("cipher 'A' with key 2 should return 'C'") {
         // Arrange
         val char = 'A'
         val key = 2
@@ -20,11 +16,10 @@ class CesarCipherTest {
         val res = cipher(char, key)
 
         // Assert
-        assertThat(res).isEqualTo('C')
+        res shouldBe 'C'
     }
 
-    @Test
-    fun `cipher 'A' with key 0 should return 'A'`() {
+    test("cipher 'A' with key 0 should return 'A'") {
         // Arrange
         val char = 'O'
         val key = 10479
@@ -33,11 +28,10 @@ class CesarCipherTest {
         val res = cipher(char, key)
 
         // Assert
-        assertThat(res).isEqualTo('A')
+        res shouldBe 'A'
     }
 
-    @Test
-    fun `cipher 'A' with key 5 should return 'F'`() {
+    test("cipher 'A' with key 5 should return 'F'") {
         // Arrange
         val char = 'A'
         val key = 5
@@ -46,11 +40,10 @@ class CesarCipherTest {
         val res = cipher(char, key)
 
         // Assert
-        assertThat(res).isEqualTo('F')
+        res shouldBe 'F'
     }
 
-    @Test
-    fun `cipher 'Y' with key 5 should return 'D'`() {
+    test("cipher 'Y' with key 5 should return 'D'") {
         // Arrange
         val char = 'Y'
         val key = 5
@@ -59,11 +52,10 @@ class CesarCipherTest {
         val res = cipher(char, key)
 
         // Assert
-        assertThat(res).isEqualTo('D')
+        res shouldBe 'D'
     }
 
-    @Test
-    fun `cipher 'A' with key 53 should return 'B'`() {
+    test("cipher 'A' with key 53 should return 'B'") {
         // Arrange
         val char = 'A'
         val key = 53
@@ -72,19 +64,18 @@ class CesarCipherTest {
         val res = cipher(char, key)
 
         // Assert
-        assertThat(res).isEqualTo('B')
+        res shouldBe 'B'
     }
 
-    @Test
-    fun `cipher 'A' with key -2 should throw an error`() {
+    test("cipher 'A' with key -2 should throw an error") {
         // Arrange
         val char = 'A'
         val key = -2
 
         // Act
         // Assert
-        assertFailure { cipher(char, key) }
-            .isInstanceOf(IllegalArgumentException::class)
-            .hasMessage("Key must be positive")
+        shouldThrowWithMessage<IllegalArgumentException>("Key must be positive") {
+            cipher(char, key)
+        }
     }
-}
+})
